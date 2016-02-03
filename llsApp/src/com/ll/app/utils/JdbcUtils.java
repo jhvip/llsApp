@@ -7,17 +7,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class JdbcUtils {
-	private static String url = "jdbc:mysql://127.0.0.1:3306/llsApp";
-	private static String user = "root";
-	private static String password = "jhJH123!";
-	private static String driver = "com.mysql.jdbc.Driver";
+//	private static String url = "jdbc:mysql://127.0.0.1:3306/llsApp";
+//	private static String user = "root";
+//	private static String password = "jhJH123!";
+//	private static String driver = "com.mysql.jdbc.Driver";
 	
-	/*
+	
 	private static String url = "jdbc:mysql://qdm162607130.my3w.com:3306/qdm162607130_db";
 	private static String user = "qdm162607130";
 	private static String password = "jianghao";
 	private static String driver = "com.mysql.jdbc.Driver";
-	*/
+	
 	static {
 		try {
 			Class.forName(driver);
