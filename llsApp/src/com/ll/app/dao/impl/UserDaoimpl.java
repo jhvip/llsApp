@@ -13,8 +13,8 @@ public class UserDaoimpl implements UserDao{
 
 	@Override
 	public boolean userRegist(User user) {
-		String sql = "insert into User(userName, password, registTime) "
-				+ "values(?,?,?);";
+		String sql = "insert into User(userName, password, registTime,token) "
+				+ "values(?,?,?,?);";
 		Connection connection = JdbcUtils.getConnection();
 		PreparedStatement preparedStatement = null;
 		try {
@@ -22,6 +22,7 @@ public class UserDaoimpl implements UserDao{
 			preparedStatement.setString(1, user.getUserName());
 			preparedStatement.setString(2, user.getPassword());
 			preparedStatement.setString(3, user.getRegistTime());
+			preparedStatement.setString(4, user.getToken());
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

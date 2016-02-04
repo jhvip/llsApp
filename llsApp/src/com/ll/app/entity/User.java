@@ -4,6 +4,13 @@ public class User {
 	private String userName;
 	private String password;
 	private String registTime;
+	private String token;
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
+	}
 	public String getRegistTime() {
 		return registTime;
 	}

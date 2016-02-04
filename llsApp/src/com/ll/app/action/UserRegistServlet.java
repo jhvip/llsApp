@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,6 +18,7 @@ import org.json.JSONObject;
 import com.ll.app.dao.UserDao;
 import com.ll.app.dao.impl.UserDaoimpl;
 import com.ll.app.entity.User;
+import com.ll.app.utils.Token;
 
 
 
@@ -39,34 +41,35 @@ public class UserRegistServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json; charset=utf-8");
 		
+		PrintWriter out = null;
 		
 		User user=new User();
 		user.setUserName(request.getParameter("userName"));
 		user.setPassword(request.getParameter("password"));
 		
+		Token token=new Token();
+		user.setToken(token.getToken());
+		
 		Date now=new Date();
 		SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		user.setRegistTime(dateFormat.format(now));
 		UserDao userDao = new UserDaoimpl();
+		
 		boolean state = userDao.userRegist(user);
 		if (state) {
 			System.out.println("注册成功");
-			
-			response.setCharacterEncoding("UTF-8");
-			response.setContentType("application/json; charset=utf-8");
-			
-			PrintWriter out = null;
-			
+
 			JSONObject jsonObject=new JSONObject();
 			jsonObject.put("status", "success");
 			jsonObject.put("name", user.getUserName());
-			jsonObject.put("time", dateFormat.format(now));
-			JSONArray jsonArray=new JSONArray();
-			jsonArray.put(jsonObject);
+			jsonObject.put("token", user.getToken());
+			
 			try {
 			    out = response.getWriter();
-			    out.write(jsonArray.toString());
+			    out.write(jsonObject.toString());
 			} catch (IOException e) {
 			    e.printStackTrace();
 			} finally {
@@ -78,20 +81,14 @@ public class UserRegistServlet extends HttpServlet {
 		} else {
 			System.out.println("注册失败");
 			
-			response.setCharacterEncoding("UTF-8");
-			response.setContentType("application/json; charset=utf-8");
-			
-			PrintWriter out = null;
-			
 			JSONObject jsonObject=new JSONObject();
 			jsonObject.put("status", "error");
 			
 			jsonObject.put("time", dateFormat.format(now));
-			JSONArray jsonArray=new JSONArray();
-			jsonArray.put(jsonObject);
+			
 			try {
 			    out = response.getWriter();
-			    out.write(jsonArray.toString());
+			    out.write(jsonObject.toString());
 			} catch (IOException e) {
 			    e.printStackTrace();
 			} finally {
